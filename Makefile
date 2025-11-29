@@ -1,4 +1,4 @@
-DATABASE_URL = postgres://postgres:postgres@localhost:5432/myapp
+DATABASE_URL = postgres://postgres:postgres@localhost:5432/gleam_local
 
 .PHONY: run test clean db-up db-down db-reset migrate migrate-up migrate-down migrate-new squirrel
 
