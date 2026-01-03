@@ -1,7 +1,7 @@
+import controllers/users_controller.{create, index, show}
+import dream/context.{type EmptyContext}
 import dream/http/request.{Get, Post}
 import dream/router.{type Router, route, router}
-import dream/context.{type EmptyContext}
-import controllers/users_controller.{index, show, create}
 import services.{type Services}
 
 pub fn create_router() -> Router(EmptyContext, Services) {

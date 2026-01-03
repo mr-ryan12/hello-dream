@@ -1,4 +1,4 @@
-import dream/servers/mist/server.{bind, listen, router, services} as server
+import dream/servers/mist/server.{bind, listen, router, services}
 import router.{create_router}
 import services.{initialize_services}
 

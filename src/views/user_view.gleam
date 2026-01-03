@@ -1,6 +1,6 @@
-import types/user.{type User}
 import gleam/json
 import gleam/list.{map}
+import types/user.{type User}
 
 pub fn to_json(user: User) -> String {
   user_to_json_object(user)

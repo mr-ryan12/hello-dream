@@ -1,10 +1,13 @@
 import dream/context.{type EmptyContext}
-import dream/http.{require_int, type Request, type Response, json_response, ok, created, validate_json, internal_server_error, not_found}
+import dream/http.{
+  type Request, type Response, created, internal_server_error, json_response,
+  not_found, ok, require_int, validate_json,
+}
 import dream/http/error.{NotFound}
 import gleam/result
-import models/user.{create as create_user, list, get, decoder}
+import models/user.{create as create_user, decoder, get, list}
 import services.{type Services}
-import views/user_view.{to_json, list_to_json}
+import views/user_view.{list_to_json, to_json}
 
 pub fn index(
   _request: Request,
@@ -15,10 +18,14 @@ pub fn index(
     let db = services.db
     list(db)
   }
-  
+
   case result {
     Ok(users) -> json_response(ok, list_to_json(users))
-    Error(_) -> json_response(internal_server_error, "{\"error\": \"Internal server error\"}")
+    Error(_) ->
+      json_response(
+        internal_server_error,
+        "{\"error\": \"Internal server error\"}",
+      )
   }
 }
 
@@ -32,11 +39,16 @@ pub fn show(
     let db = services.db
     get(db, id)
   }
-  
+
   case result {
     Ok(user_data) -> json_response(ok, to_json(user_data))
-    Error(NotFound(_)) -> json_response(not_found, "{\"error\": \"User not found\"}")
-    Error(_) -> json_response(internal_server_error, "{\"error\": \"Internal server error\"}")
+    Error(NotFound(_)) ->
+      json_response(not_found, "{\"error\": \"User not found\"}")
+    Error(_) ->
+      json_response(
+        internal_server_error,
+        "{\"error\": \"Internal server error\"}",
+      )
   }
 }
 
@@ -51,9 +63,14 @@ pub fn create(
       let db = services.db
       case create_user(db, name, email) {
         Ok(user_data) -> json_response(created, to_json(user_data))
-        Error(_) -> json_response(internal_server_error, "{\"error\": \"Failed to create user\"}")
+        Error(_) ->
+          json_response(
+            internal_server_error,
+            "{\"error\": \"Failed to create user\"}",
+          )
       }
     }
-    Error(_) -> json_response(internal_server_error, "{\"error\": \"Invalid JSON data\"}")
+    Error(_) ->
+      json_response(internal_server_error, "{\"error\": \"Invalid JSON data\"}")
   }
 }

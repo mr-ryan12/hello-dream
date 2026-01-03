@@ -1,12 +1,12 @@
-import types/user.{type User, User}
-import sql
+import gleam/dynamic/decode.{type Decoder, field, string, success}
 import gleam/list.{map}
 import gleam/option.{unwrap}
 import gleam/time/timestamp.{system_time}
-import gleam/dynamic/decode.{type Decoder, field, string, success}
 import pog.{type Connection, type Returned}
+import sql
+import types/user.{type User, User}
 
-import dream/http/error.{type Error, NotFound, InternalServerError}
+import dream/http/error.{type Error, InternalServerError, NotFound}
 
 pub fn list(db: Connection) -> Result(List(User), Error) {
   case sql.list_users(db) {
@@ -39,9 +39,7 @@ pub fn decoder() -> Decoder(#(String, String)) {
   success(#(name, email))
 }
 
-fn extract_first_user(
-  returned: Returned(sql.GetUserRow),
-) -> Result(User, Error) {
+fn extract_first_user(returned: Returned(sql.GetUserRow)) -> Result(User, Error) {
   case returned.rows {
     [row] -> Ok(row_to_user(row))
     [] -> Error(NotFound("User not found"))
