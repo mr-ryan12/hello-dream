@@ -1,8 +1,8 @@
 import dream/context.{type EmptyContext}
-import dream/http.{type Request, type Response, text_response, ok}
+import dream/http.{type Request, type Response, ok, text_response}
 import dream/http/request.{Get}
 import dream/router.{type EmptyServices, route, router as create_router}
-import dream/servers/mist/server.{bind, listen, router as set_router}
+import dream/servers/mist/server.{bind, listen, router}
 
 fn index(
   _request: Request,
@@ -18,7 +18,7 @@ pub fn main() {
     |> route(method: Get, path: "/", controller: index, middleware: [])
 
   server.new()
-  |> set_router(app_router)
+  |> router(app_router)
   |> bind("localhost")
   |> listen(3000)
 }
