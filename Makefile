@@ -42,3 +42,4 @@ migrate-down:
 
 migrate-new:
 	@gleam run -m cigogne new --name $(name)
+	
